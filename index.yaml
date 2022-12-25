@@ -1,0 +1,23 @@
+apiVersion: v1
+entries:
+  ss-cp4d:
+  - apiVersion: v2
+    created: "2022-12-26T00:53:21.57049+07:00"
+    description: SingleStore DB for IBM Cloud Pak for Data
+    digest: 8254425bc28bfc1e2eefe35ee3f8e25736e557ae594c49966ad83eb9e5291d49
+    home: https://singlestore.com
+    icon: https://www.singlestore.com/images/components/navbar/logo_main.svg
+    keywords:
+    - SingleStore DB
+    - memsql
+    - database
+    - operator
+    kubeVersion: ^1.11.0-0
+    maintainers:
+    - email: ton.hoang@svtech.com.vn
+      name: Ton Hoang
+    name: ss-cp4d
+    urls:
+    - https://hoangton.github.io/ss-cp4d/ss-cp4d-1.0.1.tgz
+    version: 1.0.1
+generated: "2022-12-26T00:53:21.56663+07:00"
