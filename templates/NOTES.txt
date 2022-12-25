@@ -20,7 +20,7 @@ It will show two services:
 Use MySQL compatible client to connect to the two service end points.
 
 To learn more about deployment configurations, please run:
-  $ helm show readme {{ .Chart.Name }} --repo https://svtech.azurecr.io/ss-cp4d [--version 1.0.1]
+  $ helm show readme {{ .Chart.Name }} --repo https://hoangton.github.io/ss-cp4d [--version 1.0.1]
 
 To uninstall, run:
   $ helm uninstall {{ .Release.Name }}

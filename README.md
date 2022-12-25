@@ -4,7 +4,7 @@ This Helm chart is to be used for deploying SingleStore DB in the IBM Cloud Pak 
 
 ## Documentation
 
-Please visit [SingleStore DB Helm Chart for IBM Cloud Pak for Data](https://svtech.azurecr.io/ss-cp4d).
+Please visit [SingleStore DB Helm Chart for IBM Cloud Pak for Data](https://hoangton.github.io/ss-cp4d).
 
 ## Sample values-override.yaml file
 Below is a sample values-override.yaml file that shows how to override 
