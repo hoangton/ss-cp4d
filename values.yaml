@@ -1,0 +1,42 @@
+## valid values for state: "enabled" or "disabled"
+state: "enabled"
+
+storageClassName: ibm-spectrum-scale-sc
+operatorImage: singlestore/operator:3.0.60-c818b3a1
+
+nodeImageRepo: singlestore/node
+## nodeImageVersion should be consistent with engine version indicated by nodeImageTag
+nodeImageVersion: &nodeImageVersion 7.8.19
+nodeImageTag: alma-7.8.19-4263b2d130
+
+## arguments to deployment.yaml
+coresPerUnit: "8"
+memoryPerUnit: "32"
+overpackFactor: "0"
+fsGroup: "1000650000"
+
+addon:
+  ## Leave id as is
+  id: "singlestore"
+  version: *nodeImageVersion
+
+memsqlOperatorDeployment:
+  serviceAccountName: memsql-operator
+  name: memsql-operator
+  replicas: 1
+  additionalArgs: []
+
+memsqlCluster:
+  name: memsql-cluster
+
+  redundancyLevel: 2
+
+  aggregatorSpec:
+    count: 2
+    height: 0.5
+    storageGB: 10
+
+  leafSpec:
+    count: 2
+    height: 0.5
+    storageGB: 20

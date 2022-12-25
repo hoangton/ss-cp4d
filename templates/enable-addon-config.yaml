@@ -1,0 +1,17 @@
+# Verify that a valid vesion is provided
+{{ $version := semver .Values.nodeImageVersion }}
+{{- if not (contains .Values.nodeImageVersion .Values.nodeImageTag) }}
+{{- fail "nodeImageVersion and nodeImageTag must match" }}
+{{- end }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.addon.id }}-{{ .Values.nodeImageVersion }}-configmap
+  labels:
+    icpdata_addon: "true"
+data:
+  add-ons.json: |
+      { "{{ .Values.addon.id }}": { "versions": { "{{ .Values.nodeImageVersion }}": { "state": "{{ .Values.state }}" } } } }
+
+

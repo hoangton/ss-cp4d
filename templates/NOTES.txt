@@ -1,0 +1,26 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}. 
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+To check the deployment status, run:
+  $ CLUSTER_NAME=$(helm get values -a  -o json {{ .Release.Name }} | jq -r '.memsqlCluster.name')
+  $ oc get memsqlcluster ${CLUSTER_NAME} -o=jsonpath='{.status.phase}{"\n"}'
+When the above command's output value is "Running", it means the SingleStore DB server deployment is finished
+
+Run:
+  $ oc get svc | grep ${CLUSTER_NAME}
+It will show two services:
+  svc-${CLUSTER_NAME}-ddl
+  svc-${CLUSTER_NAME}-dml
+Use MySQL compatible client to connect to the two service end points.
+
+To learn more about deployment configurations, please run:
+  $ helm show readme {{ .Chart.Name }} --repo https://svtech.azurecr.io/ss-cp4d [--version 1.0.1]
+
+To uninstall, run:
+  $ helm uninstall {{ .Release.Name }}

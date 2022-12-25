@@ -1,0 +1,79 @@
+apiVersion: memsql.com/v1alpha1
+kind: MemsqlCluster
+metadata:
+  name: {{ .Values.memsqlCluster.name }}
+spec:
+  {{ if .Values.memsqlCluster.license }}
+  license: {{ .Values.memsqlCluster.license }}
+  {{- else}}
+  licenseSecret:
+    name: "{{ .Values.memsqlCluster.licenseSecret.name }}"
+    key: "{{ .Values.memsqlCluster.licenseSecret.key }}"
+  {{- end}}
+
+  {{ if .Values.memsqlCluster.adminHashedPassword }}
+  adminHashedPassword: "{{ .Values.memsqlCluster.adminHashedPassword }}"
+  {{- else}}
+  adminHashedPasswordSecret:
+    name: "{{ .Values.memsqlCluster.adminHashedPasswordSecret.name }}"
+    key: "{{ .Values.memsqlCluster.adminHashedPasswordSecret.key }}"
+  {{- end}}
+
+  nodeImage:
+    repository: {{ .Values.nodeImageRepo }}
+    tag: {{ .Values.nodeImageTag }}
+
+  redundancyLevel: {{ .Values.memsqlCluster.redundancyLevel -}}
+
+{{ $nodeSpecAnnotations := dict "cloudpackId" "eb9998dcc5d24e3eb5b6fb488f750fe2" }}
+{{- $_ := set $nodeSpecAnnotations "cloudpakName" "IBM Cloud Pak for Data" }}
+{{- $_ := set $nodeSpecAnnotations "cloudpakVersion" "4.6" }}
+{{- $_ := set $nodeSpecAnnotations "productName" (include "prodName" .) }}
+{{- $_ := set $nodeSpecAnnotations "productID" (include "prodID" .) }}
+{{- $_ := set $nodeSpecAnnotations "productVersion" .Values.nodeImageVersion }}
+{{- $_ := set $nodeSpecAnnotations "productMetric" "VIRTUAL_PROCESSOR_CORE" }}
+{{- $_ := set $nodeSpecAnnotations "productChargedContainers" "All" }}
+
+{{- $nodeSpecLabels := dict "app" "memsql" }}
+{{- $nodeSpecMetaOverrides := dict "annotations" $nodeSpecAnnotations "labels" $nodeSpecLabels }}
+{{- $nodeSpecCommon := dict "objectMetaOverrides" $nodeSpecMetaOverrides }}
+
+{{- $nodeSpecCommonCopy := deepCopy $nodeSpecCommon }}
+{{- $mergedAggSpec := merge $nodeSpecCommonCopy .Values.memsqlCluster.aggregatorSpec }}
+  aggregatorSpec:
+    storageClass: {{ .Values.storageClassName }}
+{{ toYaml $mergedAggSpec | indent 4 }}
+
+{{- $nodeSpecCommonCopy := deepCopy $nodeSpecCommon }}
+{{- $mergedLeafSpec := merge $nodeSpecCommonCopy .Values.memsqlCluster.leafSpec }}
+  leafSpec:
+    storageClass: {{ .Values.storageClassName }}
+{{ toYaml $mergedLeafSpec | indent 4 }}
+
+  {{ if .Values.memsqlCluster.serviceSpec -}} serviceSpec:
+{{ toYaml .Values.memsqlCluster.serviceSpec | indent 4 }}
+  {{- end }}
+
+  {{ if .Values.memsqlCluster.backupSpec -}} backupSpec:
+{{ toYaml .Values.memsqlCluster.backupSpec | indent 4 }}
+  {{- end }}
+
+  {{ if .Values.memsqlCluster.objectOverrides -}} objectOverrides:
+{{ toYaml .Values.memsqlCluster.objectOverrides | indent 4 }}
+  {{- end }}
+
+  {{ if .Values.memsqlCluster.schedulingDetails -}} schedulingDetails:
+{{ toYaml .Values.memsqlCluster.schedulingDetails | indent 4 }}
+  {{- end }}
+
+  {{ if .Values.memsqlCluster.replicationSpec -}} replicationSpec:
+{{ toYaml .Values.memsqlCluster.replicationSpec | indent 4 }}
+  {{- end }}
+
+  {{ if .Values.memsqlCluster.secureConnectionSpec -}} secureConnectionSpec:
+{{ toYaml .Values.memsqlCluster.secureConnectionSpec | indent 4 }}
+  {{- end }}
+
+  {{ if .Values.memsqlCluster.monitoringSpec -}} monitoringSpec:
+{{ toYaml .Values.memsqlCluster.monitoringSpec | indent 4 }}
+  {{- end }}
