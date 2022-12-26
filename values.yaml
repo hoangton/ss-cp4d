@@ -6,8 +6,8 @@ operatorImage: singlestore/operator:3.0.60-c818b3a1
 
 nodeImageRepo: singlestore/node
 ## nodeImageVersion should be consistent with engine version indicated by nodeImageTag
-nodeImageVersion: &nodeImageVersion 7.8.19
-nodeImageTag: alma-7.8.19-4263b2d130
+nodeImageVersion: &nodeImageVersion 8.0.4
+nodeImageTag: latest
 
 ## arguments to deployment.yaml
 coresPerUnit: "8"
@@ -30,7 +30,9 @@ memsqlCluster:
   name: memsql-cluster
 
   redundancyLevel: 2
-
+  serviceSpec:
+  # When don't config type: "ClusterIP" it will be type: "LB"
+    type: "ClusterIP"
   aggregatorSpec:
     count: 2
     height: 0.5

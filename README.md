@@ -25,7 +25,7 @@ operatorImage: singlestore/operator:3.0.60-c818b3a1
 
 # nodeImageVersion should be consistent with nodeImageTag
 nodeImageVersion: 7.8.19
-nodeImageTag: alma-7.8.19-4263b2d130
+nodeImageTag: latest
 nodeImageRepo: singlestore/node
 
 # Make sure to use string for the following three values
